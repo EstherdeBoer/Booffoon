@@ -1,0 +1,3 @@
+module Booffoon
+  # Your code goes here...
+end
