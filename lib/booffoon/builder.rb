@@ -1,8 +1,8 @@
 module Booffoon
 class Builder < ActionView::Helpers::FormBuilder
-  delegate :content_tag, :concat, to: :@template
+  delegate :content_tag, :concat, :t, to: :@template
 
-  AUTO = :auto
+  TRANSLATE = :translate
 
   def wrapper(field_name, hint: AUTO, label: nil, label_class: "control-label", &block)
     content_tag(:div, class: wrapper_classes(field_name).join(" ")) do
@@ -21,12 +21,20 @@ class Builder < ActionView::Helpers::FormBuilder
 
   def hint(field_name, hint)
     model_key = object.class.model_name.singular
-    if hint == AUTO
-      hint = @template.t("hints.#{model_key}.#{field_name}", default: "", raise: false)
+    if hint == TRANSLATE
+      hint = t("hints.#{model_key}.#{field_name}", default: "", raise: false)
     end
     if hint.present?
       content_tag(:p, " " + hint, class: "help-block")
     end
+  end
+
+  def label(field_name, text = nil, options = {}, &block)
+    model_key = object.class.model_name.singular
+    if text == TRANSLATE
+      text = t(field_name, scope: [:labels, model_key])
+    end
+    super(field_name, text, options, &block)
   end
 
   def wrapper_classes(field_name)
@@ -44,8 +52,14 @@ class Builder < ActionView::Helpers::FormBuilder
   end
 
   %w[text_field text_area phone_field number_field url_field password_field email_field date_field].each do |method_name|
-    define_method(method_name) do |method, options = {}|
-      super(method, options.reverse_merge(class: "form-control"))
+    define_method(method_name) do |attr, options = {}|
+      super(attr, options.reverse_merge(class: "form-control"))
+    end
+
+    define_method("wrapped_#{method_name}") do |*args|
+      wrapper(args.first) do
+        public_send(method_name, *args)
+      end
     end
   end
 

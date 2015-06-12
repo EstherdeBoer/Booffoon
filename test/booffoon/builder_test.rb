@@ -24,4 +24,15 @@ class FormBuilderTest < ActionView::TestCase
       assert_select("input")
     end
   end
+
+  test "automagic wrapped_field" do
+    concat (form_for(@article, builder: Booffoon::Builder) do |form|
+      concat form.wrapped_text_field(:title)
+    end)
+
+    assert_select("div.form-group") do
+      assert_select("label", text: "Title")
+      assert_select("input.form-control[type=text][name='article[title]']")
+    end
+  end
 end
