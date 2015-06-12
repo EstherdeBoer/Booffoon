@@ -70,6 +70,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     builder (3.2.2)
+    byebug (5.0.0)
+      columnize (= 0.9.0)
+    columnize (0.9.0)
     erubis (2.7.0)
     execjs (2.5.2)
     globalid (0.3.5)
@@ -131,6 +134,7 @@ PLATFORMS
 DEPENDENCIES
   arel!
   booffoon!
+  byebug
   jbuilder (~> 2.0)
   rails!
   sass-rails (~> 5.0)
