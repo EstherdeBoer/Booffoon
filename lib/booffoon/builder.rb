@@ -1,5 +1,9 @@
+require "booffoon/inputs"
+
 module Booffoon
 class Builder < ActionView::Helpers::FormBuilder
+  include Inputs
+
   delegate :content_tag, :concat, :t, to: :@template
 
   TRANSLATE = :translate
@@ -15,7 +19,7 @@ class Builder < ActionView::Helpers::FormBuilder
 
   def errors(field_name)
     if (messages = object.errors.messages[field_name]).present?
-      content_tag(:span, " " + messages.join(" "), class: "error help-block")
+      content_tag(:span, " " + messages.join(" "), "class": "error help-block")
     end
   end
 
@@ -25,7 +29,7 @@ class Builder < ActionView::Helpers::FormBuilder
       hint = t("hints.#{model_key}.#{field_name}", default: "", raise: false)
     end
     if hint.present?
-      content_tag(:p, " " + hint, class: "help-block")
+      content_tag(:p, " " + hint, "class": "help-block")
     end
   end
 
@@ -45,30 +49,6 @@ class Builder < ActionView::Helpers::FormBuilder
 
   def has_error?(field_name)
     object.errors.messages[field_name.to_sym].present?
-  end
-
-  def options_select(method, options_collection, options: {}, html_options: {})
-    collection_select(method, options_collection, :value, :label, options, html_options.reverse_merge(class: "form-control"))
-  end
-
-  %w[text_field text_area phone_field number_field url_field password_field email_field date_field].each do |method_name|
-    define_method(method_name) do |attr, options = {}|
-      super(attr, options.reverse_merge(class: "form-control"))
-    end
-
-    define_method("wrapped_#{method_name}") do |attr_name, label: nil, hint: nil, **input_options|
-      wrapper(attr_name, label: label, hint: hint) do
-        public_send(method_name, attr_name, input_options)
-      end
-    end
-  end
-
-  def select(method, choices: nil, options: {}, html_options: {}, &block)
-    super(method, choices, options, html_options.reverse_merge(class: "form-control"), &block)
-  end
-
-  def collection_select(method, collection:, value_method: :id, text_method: :to_s, options: {}, html_options: {})
-    super(method, collection, value_method, text_method, options, html_options.reverse_merge(class: "form-control"))
   end
 end
 end
