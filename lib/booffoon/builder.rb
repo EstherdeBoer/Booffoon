@@ -56,9 +56,9 @@ class Builder < ActionView::Helpers::FormBuilder
       super(attr, options.reverse_merge(class: "form-control"))
     end
 
-    define_method("wrapped_#{method_name}") do |*args|
-      wrapper(args.first) do
-        public_send(method_name, *args)
+    define_method("wrapped_#{method_name}") do |attr_name, wrapper_options= {}, *input_args|
+      wrapper(attr_name, wrapper_options) do
+        public_send(method_name, attr_name, *input_args)
       end
     end
   end
