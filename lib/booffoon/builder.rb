@@ -56,18 +56,18 @@ class Builder < ActionView::Helpers::FormBuilder
       super(attr, options.reverse_merge(class: "form-control"))
     end
 
-    define_method("wrapped_#{method_name}") do |attr_name, wrapper_options= {}, *input_args|
-      wrapper(attr_name, wrapper_options) do
-        public_send(method_name, attr_name, *input_args)
+    define_method("wrapped_#{method_name}") do |attr_name, label: nil, hint: nil, **input_options|
+      wrapper(attr_name, label: label, hint: hint) do
+        public_send(method_name, attr_name, input_options)
       end
     end
   end
 
-  def select(method, choices = nil, options = {}, html_options = {}, &block)
+  def select(method, choices: nil, options: {}, html_options: {}, &block)
     super(method, choices, options, html_options.reverse_merge(class: "form-control"), &block)
   end
 
-  def collection_select(method, collection, value_method, text_method, options: {}, html_options: {})
+  def collection_select(method, collection:, value_method: :id, text_method: :to_s, options: {}, html_options: {})
     super(method, collection, value_method, text_method, options, html_options.reverse_merge(class: "form-control"))
   end
 end

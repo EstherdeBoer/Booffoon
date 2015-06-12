@@ -5,20 +5,12 @@ class WrappedFieldsTest < ActionView::TestCase
     @article = Article.new(title: "World Peace")
   end
 
-  test "passes wrapper options" do
+  test "passes wrapper and input options" do
     concat (form_for(@article, builder: Booffoon::Builder) do |form|
-      concat form.wrapped_text_field(:title, {label: "Custom label"})
+      concat form.wrapped_text_field(:title, label: "Custom label", "class": "biggish")
     end)
     assert_select("div.form-group") do
       assert_select "label", text: "Custom label"
-    end
-  end
-
-  test "passes input options" do
-    concat (form_for(@article, builder: Booffoon::Builder) do |form|
-      concat form.wrapped_text_field(:title, {}, "class": "biggish")
-    end)
-    assert_select("div.form-group") do
       assert_select "input.biggish"
     end
   end
