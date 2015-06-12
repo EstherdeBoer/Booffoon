@@ -1,6 +1,3 @@
-require 'active_model'
-
-class Category
-  include ::ActiveModel::Model
-  attr_accessor :id, :name
+class Category < ActiveRecord::Base
+  has_many :articles
 end

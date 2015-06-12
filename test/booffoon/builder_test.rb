@@ -1,12 +1,8 @@
 require 'test_helper'
 
 class FormBuilderTest < ActionView::TestCase
-  setup do
-    @article = Article.new(title: "World Peace")
-  end
-
   test "adds form-control class to input" do
-    concat (form_for(@article, builder: Booffoon::Builder) do |form|
+    concat (form_for(articles(:sturgeon), builder: Booffoon::Builder) do |form|
       form.text_field(:title)
     end)
 
@@ -14,7 +10,7 @@ class FormBuilderTest < ActionView::TestCase
   end
 
   test "adds form-group and form-control classes" do
-    concat (form_for(@article, builder: Booffoon::Builder) do |form|
+    concat (form_for(articles(:sturgeon), builder: Booffoon::Builder) do |form|
       concat (form.wrapper(:title) do
         concat form.text_field(:title)
       end)
@@ -26,7 +22,7 @@ class FormBuilderTest < ActionView::TestCase
   end
 
   test "automagic wrapped_field" do
-    concat (form_for(@article, builder: Booffoon::Builder) do |form|
+    concat (form_for(articles(:sturgeon), builder: Booffoon::Builder) do |form|
       concat form.wrapped_text_field(:title)
     end)
 

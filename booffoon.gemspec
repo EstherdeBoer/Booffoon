@@ -18,4 +18,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   # s.add_dependency "rails", "~> 5.0.0.alpha"
+
+  s.add_development_dependency "sqlite3"
 end

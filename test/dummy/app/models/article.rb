@@ -1,6 +1,3 @@
-require 'active_model'
-
-class Article
-  include ::ActiveModel::Model
-  attr_accessor :title, :body, :category_id
+class Article < ActiveRecord::Base
+  belongs_to :category
 end

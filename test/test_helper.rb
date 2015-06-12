@@ -8,14 +8,18 @@ require "minitest/mock"
 
 # Filter out Minitest backtrace while allowing backtrace from other libraries
 # to be shown.
-Minitest.backtrace_filter = Minitest::BacktraceFilter.new
+# Minitest.backtrace_filter = Minitest::BacktraceFilter.new
+MiniTest.module_eval do
+  SILENCE = ['active_support/callbacks', 'active_support/notifications', 'gems/minitest', '/gems/spring', 'test_case.rb']
+  def self.filter_backtrace(bt)
+    bt.reject{|line| SILENCE.any?{|snippet| line.include?(snippet) } }
+  end
+end
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 # Load fixtures from the engine
-if ActiveSupport::TestCase.respond_to?(:fixture_path=)
-  ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
-  ActiveSupport::TestCase.file_fixture_path = ActiveSupport::TestCase.fixture_path + "files"
-  ActiveSupport::TestCase.fixtures :all
-end
+ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
+ActiveSupport::TestCase.file_fixture_path = ActiveSupport::TestCase.fixture_path + "files"
+ActiveSupport::TestCase.fixtures :all
