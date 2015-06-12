@@ -4,7 +4,7 @@ class Builder < ActionView::Helpers::FormBuilder
 
   TRANSLATE = :translate
 
-  def wrapper(field_name, hint: AUTO, label: nil, label_class: "control-label", &block)
+  def wrapper(field_name, hint: TRANSLATE, label: nil, label_class: "control-label", &block)
     content_tag(:div, class: wrapper_classes(field_name).join(" ")) do
       concat self.label(field_name, label, class: label_class)
       concat @template.capture(&block)
