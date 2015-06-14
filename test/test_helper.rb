@@ -23,3 +23,11 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 ActiveSupport::TestCase.file_fixture_path = ActiveSupport::TestCase.fixture_path + "files"
 ActiveSupport::TestCase.fixtures :all
+
+class ActiveSupport::TestCase
+  def self.skip(name)
+    define_method(name) do
+      skip
+    end
+  end
+end
