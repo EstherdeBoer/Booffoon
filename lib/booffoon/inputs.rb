@@ -7,8 +7,8 @@ module Inputs
       super(attr, options.reverse_merge("class": INPUT_CLASS))
     end
 
-    define_method("wrapped_#{method_name}") do |attr_name, label: nil, hint: nil, **input_options|
-      wrapper(attr_name, label: label, hint: hint) do
+    define_method("wrapped_#{method_name}") do |attr_name, label_text: nil, hint_text: nil, **input_options|
+      wrapper(attr_name, label_text: label_text, hint_text: hint_text) do
         public_send(method_name, attr_name, input_options)
       end
     end

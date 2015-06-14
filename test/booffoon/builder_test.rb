@@ -7,7 +7,7 @@ class FormBuilderTest < ActionView::TestCase
     article.errors.add(:title, :required)
 
     concat (fields_for(:article, article, builder: Booffoon::Builder) do |form|
-      form.wrapper(:title, hint: :translate) do
+      form.wrapper(:title) do
         form.text_field(:title)
       end
     end)
@@ -26,7 +26,7 @@ class FormBuilderTest < ActionView::TestCase
         concat form.label(:title)
         concat form.text_field(:title)
         concat form.errors(:title)
-        concat form.hint(:title, :translate)
+        concat form.hint(:title)
       end)
     end)
 

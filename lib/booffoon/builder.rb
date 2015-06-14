@@ -4,17 +4,17 @@ module Booffoon
 class Builder < ActionView::Helpers::FormBuilder
   include Inputs
 
-  LABEL_CLASS="control-label"
-  TRANSLATE = :translate
+  LABEL_CLASS = "control-label"
+  HINT_CLASS  = "help-block hint"
 
   delegate :content_tag, :concat, :t, to: :@template
 
-  def wrapper(field_name, hint: nil, label: nil, &block)
+  def wrapper(field_name, hint_text: nil, label_text: nil, &block)
     wrapper_tag(field_name) do
-      concat self.label(field_name, label)
+      concat label(field_name, label_text)
       concat @template.capture(&block)
       concat errors(field_name)
-      concat self.hint(field_name, hint)
+      concat hint(field_name, hint_text)
     end
   end
 
@@ -32,13 +32,13 @@ class Builder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def hint(field_name, hint = TRANSLATE)
+  def hint(field_name, text = nil)
     model_key = object.class.model_name.singular
-    if hint == TRANSLATE
-      hint = t("hints.#{model_key}.#{field_name}", default: "", raise: false)
+    if text.nil?
+      text = t("hints.#{model_key}.#{field_name}", default: "", raise: false)
     end
-    if hint.present?
-      content_tag(:p, " " + hint, "class": "help-block hint")
+    if text.present?
+      " ".html_safe + content_tag(:p, text, "class": HINT_CLASS)
     end
   end
 
