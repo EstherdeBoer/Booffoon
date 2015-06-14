@@ -1,9 +1,8 @@
 en:
-  article:
-    title: "The title"
-  labels:
-    article:
-      title: "The title"
+  helpers:
+    label:
+      article:
+        title: "The title"
   hints:
     article:
       title: "Come up with some nice title here"
