@@ -1,8 +1,10 @@
 require "booffoon/inputs"
+require "booffoon/errors"
 
 module Booffoon
 class Builder < ActionView::Helpers::FormBuilder
   include Inputs
+  include Errors
 
   LABEL_CLASS = "control-label"
   HINT_CLASS  = "help-block hint"
@@ -26,12 +28,6 @@ class Builder < ActionView::Helpers::FormBuilder
     content_tag(:div, class: wrapper_classes(field_name).join(" "), &block)
   end
 
-  def errors(field_name)
-    if (messages = object.errors.messages[field_name]).present?
-      content_tag(:span, " " + messages.join(" "), "class": "error help-block")
-    end
-  end
-
   def hint(field_name, text = nil)
     model_key = object.class.model_name.singular
     if text.nil?
@@ -44,12 +40,9 @@ class Builder < ActionView::Helpers::FormBuilder
 
   def wrapper_classes(field_name)
     wrapper_classes = ["form-group"]
-    wrapper_classes << "has-error" if has_error?(field_name)
+    wrapper_classes << "has-error" if has_error_on?(field_name)
     wrapper_classes
   end
 
-  def has_error?(field_name)
-    object.errors.messages[field_name.to_sym].present?
-  end
 end
 end
