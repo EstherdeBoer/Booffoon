@@ -24,9 +24,11 @@ module Inputs
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     super(method, collection, value_method, text_method, options, html_options) do |b|
-      b.label(class: "checkbox") do
-        concat b.check_box
-        concat b.text
+      content_tag(:div, class: "checkbox") do
+        b.label("class": "") do
+          concat b.check_box
+          concat b.text
+        end
       end
     end
   end
