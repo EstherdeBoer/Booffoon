@@ -37,6 +37,21 @@ class FormBuilderTest < ActionView::TestCase
     end
   end
 
-  skip "use individual components without wrapper"
+  test "maps error for association field" do
+    article = articles(:sturgeon)
+    # Note error added to category, not category_id. Validations are usually on association directly,
+    # not on _id/_ids attributes.
+    article.errors.add(:category, :required)
+
+    concat (fields_for(:article, article, builder: Booffoon::Builder) do |form|
+      form.wrapper(:category_id) do
+        form.collection_select(:category_id, Category.all, :id, :name)
+      end
+    end)
+
+    assert_select(".form-group.has-error") do
+      assert_select ".error", text: "must exist"
+    end
+  end
 end
 end

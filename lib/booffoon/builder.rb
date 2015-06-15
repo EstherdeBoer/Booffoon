@@ -1,5 +1,6 @@
 require "booffoon/inputs"
 require "booffoon/errors"
+require "booffoon/error_mapper"
 
 module Booffoon
 class Builder < ActionView::Helpers::FormBuilder
