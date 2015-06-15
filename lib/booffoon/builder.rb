@@ -1,11 +1,15 @@
 require "booffoon/inputs"
 require "booffoon/errors"
 require "booffoon/error_mapper"
+require "booffoon/collection_check_boxes"
+require "booffoon/collection_radio_buttons"
 
 module Booffoon
 class Builder < ActionView::Helpers::FormBuilder
   include Inputs
   include Errors
+  include CollectionCheckBoxes
+  include CollectionRadioButtons
 
   LABEL_CLASS = "control-label"
   HINT_CLASS  = "help-block hint"

@@ -11,16 +11,5 @@ class InputsTest < ActionView::TestCase
 
     assert_select("input.form-control")
   end
-
-  test "collection_check_boxes" do
-    concat (form_for(articles(:sturgeon), builder: Builder) do |form|
-      concat form.collection_check_boxes(:category_id, Category.all, :id, :name)
-    end)
-    assert_select("div.checkbox") do
-      assert_select("label", text: "Quotes") do
-        assert_select "input[type=checkbox][value='#{categories(:quotes).id}'][checked]"
-      end
-    end
-  end
 end
 end

@@ -18,23 +18,8 @@ module Inputs
     super(method, choices, options, html_options.reverse_merge("class": INPUT_CLASS), &block)
   end
 
-  def collection_select(attr, collection, value_method, text_method, options: {}, html_options: {})
-    super(attr, collection, value_method, text_method, options, html_options.reverse_merge("class": INPUT_CLASS))
+  def collection_select(attr, collection, value_method, text_method, options = {}, html_options = {}, &block)
+    super(attr, collection, value_method, text_method, options, html_options.reverse_merge("class": INPUT_CLASS), &block)
   end
-
-  def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    super(method, collection, value_method, text_method, options, html_options) do |b|
-      content_tag(:div, class: "checkbox") do
-        b.label("class": "") do
-          concat b.check_box
-          concat b.text
-        end
-      end
-    end
-  end
-
-  # def options_select(method, options = {}, html_options = {})
-  #   collection_select(method, options, :value, :label, options, html_options.reverse_merge("class": INPUT_CLASS))
-  # end
 end
 end
