@@ -2,6 +2,11 @@ require 'test_helper'
 
 module Booffoon
 class FormBuilderTest < ActionView::TestCase
+  class DummyModel
+    include ActiveModel::Model
+    attr_accessor :title
+  end
+
   test "input with wrapper" do
     article = articles(:sturgeon)
     article.errors.add(:title, :required)
@@ -53,5 +58,20 @@ class FormBuilderTest < ActionView::TestCase
       assert_select ".error", text: "must exist"
     end
   end
+
+  test "ActiveModel object" do
+    model = DummyModel.new
+    concat (fields_for(:dummy_model, model, builder: Booffoon::Builder) do |form|
+      form.wrapper(:title) do
+        form.text_field(:title)
+      end
+    end)
+  
+    assert_select("div.form-group") do
+      assert_select("input")
+      assert_select("label")
+    end
+  end
+
 end
 end
