@@ -3,6 +3,6 @@ en:
     label:
       article:
         title: "The title"
-  hints:
-    article:
-      title: "Come up with some nice title here"
+    hint:
+      article:
+        title: "Come up with some nice title here"

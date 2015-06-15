@@ -32,7 +32,7 @@ class Builder < ActionView::Helpers::FormBuilder
   def hint(field_name, text = nil)
     model_key = object.class.model_name.singular
     if text.nil?
-      text = t("hints.#{model_key}.#{field_name}", default: "", raise: false)
+      text = t(field_name, default: "", raise: false, scope: [:helpers, :hint, model_key])
     end
     if text.present?
       " ".html_safe + content_tag(:p, text, "class": HINT_CLASS)
