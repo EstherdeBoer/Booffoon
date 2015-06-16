@@ -48,5 +48,8 @@ class Builder < ActionView::Helpers::FormBuilder
     wrapper_classes
   end
 
+  def submit(value=nil, options={})
+    super(value, options.reverse_merge("class": "btn btn-primary"))
+  end
 end
 end
