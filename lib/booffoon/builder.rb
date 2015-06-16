@@ -14,7 +14,7 @@ class Builder < ActionView::Helpers::FormBuilder
   LABEL_CLASS = "control-label"
   HINT_CLASS  = "help-block hint"
 
-  delegate :content_tag, :concat, :t, to: :@template
+  delegate :content_tag, :concat, :capture, :t, to: :@template
 
   def wrapper(field_name, hint_text: nil, label_text: nil, &block)
     wrapper_tag(field_name) do
