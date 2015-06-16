@@ -10,6 +10,16 @@ class ErrorsTest < ActionView::TestCase
     assert_equal "", view.output_buffer
   end
 
+  test "custom class" do
+    article = articles(:sturgeon)
+    article.errors.add(:title, :required)
+    concat (fields_for(:article, article, builder: Booffoon::Builder) do |form|
+      concat form.errors(:title, class: "pretty-error")
+    end)
+
+    assert_select ".pretty-error", text: "must exist"
+  end
+
   test "error" do
     article = articles(:sturgeon)
     article.errors.add(:title, :required)

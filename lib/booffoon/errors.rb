@@ -1,8 +1,8 @@
 module Booffoon
 module Errors
-  def errors(field_name)
+  def errors(field_name, options = {})
     if (messages = fetch_errors(field_name)).present?
-      content_tag(:span, " " + messages.join(" "), "class": "error help-block")
+      " ".html_safe + content_tag(:span, messages.join(" "), options.reverse_merge("class": "error help-block"))
     end
   end
 
