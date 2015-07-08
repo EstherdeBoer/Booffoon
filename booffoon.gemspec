@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Booffoon::VERSION
   s.authors     = ["Wojtek Kruszewski"]
   s.email       = ["wojtek@oxos.pl"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Booffoon."
-  s.description = "TODO: Description of Booffoon."
+  s.homepage    = "https://github.com/WojtekKruszewski/booffoon"
+  s.summary     = "Form builder for Bootstrap"
+  s.description = ""
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
