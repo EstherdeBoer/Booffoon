@@ -15,18 +15,17 @@ class CollectionRadioButtonsTest < ActionView::TestCase
     end
   end
 
-  test "collection_radio_buttons with custom block" do
+  test "collection_radio_buttons with disabled item" do
+    disabled = OpenStruct.new(id: 1, name: "Disabled", disabled?: true)
+    enabled  = OpenStruct.new(id: 2, name: "Enabled",  disabled?: false)
+    default  = Category.new(id: 3, name: "Default")
+
     concat (fields_for(:article, articles(:sturgeon), builder: Builder) do |form|
-      concat (form.collection_radio_buttons(:category_id, Category.all, :id, :name) do |builder|
-        builder.label("class": "custom") do
-          concat builder.radio_button
-          concat builder.text
-        end
-      end)
+      concat (form.collection_radio_buttons(:category_id, [enabled, disabled, default], :id, :name))
     end)
-    assert_select("label.custom", text: "Quotes") do
-      assert_select "input"
-    end
+    assert_select "input[value='1'][disabled]"
+    assert_select "input[value='2']:not([disabled])"
+    assert_select "input[value='3']:not([disabled])"
   end
 
   test "collection_radio_buttons inline" do
