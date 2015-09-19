@@ -13,7 +13,7 @@ class ErrorMapperTest < ActionView::TestCase
   end
 
   test "maps errors for has_many association" do
-    subject = categories(:quotes)
+    subject = article_categories(:quotes)
     subject.errors.add(:article_ids, :blank)
     subject.errors.add(:articles,    :required)
     assert_equal "articles", ErrorMapper.new(subject, :article_ids).association_name
@@ -32,7 +32,7 @@ class ErrorMapperTest < ActionView::TestCase
   end
 
   test "no errors edge case" do
-    subject = categories(:quotes)
+    subject = article_categories(:quotes)
     assert_equal "articles", ErrorMapper.new(subject, :article_ids).association_name
     assert_equal [], ErrorMapper.new(subject, :article_ids).errors
   end

@@ -3,6 +3,10 @@ en:
     label:
       article:
         title: "The title"
+      article/category:
+        name: "The name"
     hint:
       article:
         title: "Come up with some nice title here"
+      article/category:
+        name: "Name this category"
