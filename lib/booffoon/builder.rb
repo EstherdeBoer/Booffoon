@@ -16,8 +16,8 @@ class Builder < ActionView::Helpers::FormBuilder
 
   delegate :content_tag, :concat, :capture, :t, to: :@template
 
-  def wrapper(field_name, hint_text: nil, label_text: nil, &block)
-    wrapper_tag(field_name) do
+  def wrapper(field_name, hint_text: nil, label_text: nil, **html_options, &block)
+    wrapper_tag(field_name, html_options) do
       concat label(field_name, label_text)
       concat @template.capture(&block)
       concat errors(field_name)
@@ -29,8 +29,10 @@ class Builder < ActionView::Helpers::FormBuilder
     super(field_name, text, options.reverse_merge(class: LABEL_CLASS))
   end
 
-  def wrapper_tag(field_name, &block)
-    content_tag(:div, class: wrapper_classes(field_name).join(" "), &block)
+  def wrapper_tag(field_name, html_options = {}, &block)
+    css_classes = wrapper_classes(field_name).join(" ")
+    html_options = {class: css_classes}.merge(html_options)
+    content_tag(:div, html_options, &block)
   end
 
   def hint(field_name, text = nil)

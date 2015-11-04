@@ -12,6 +12,13 @@ class WrapperTest < ActionView::TestCase
     end
   end
 
+  test "html options" do
+    concat (form_for(articles(:sturgeon), builder: Booffoon::Builder) do |form|
+      concat form.wrapper(:title, "data-xxx": "yyy") { }
+    end)
+    assert_select "div.form-group[data-xxx='yyy']"
+  end
+
   test "custom label" do
     concat (form_for(articles(:sturgeon), builder: Booffoon::Builder) do |form|
       concat form.wrapper(:title, label_text: "Custom label") { "xxx" }
